@@ -1,0 +1,50 @@
+{
+  "name": "tslerp",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Typescript library for lerping single and multi-sample data sets over time",
+  "private": false,
+  "homepage": "https://github.com/leewinder/tslerp",
+  "author": {
+    "name": "Lee Winder",
+    "email": "lee.winder@gmail.com",
+    "url": "www.leewinder.co.uk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leewinder/tslerp"
+  },
+  "bugs": {
+    "url": "https://github.com/leewinder/tslerp"
+  },
+  "keywords": [
+    "typescript",
+    "lerp",
+    "slerp"
+  ],
+  "scripts": {
+    "postinstall": "typings install",
+    "typings": "typings",
+    "test": "./node_modules/karma/bin/karma start config/karma.conf.ci.js",
+    "testdev": "./node_modules/karma/bin/karma start config/karma.conf.js"
+  },
+  "dependencies": {
+    "systemjs": "0.19.27",
+    "core-js": "^2.4.0"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "codelyzer": "0.0.20",
+    "jasmine-core": "2.4.1",
+    "karma": "^1.2.0",
+    "karma-browserify": "^5.1.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "lite-server": "^2.2.0",
+    "tslint": "3.11.0",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4",
+    "watchify": "^3.7.0"
+  }
+}
