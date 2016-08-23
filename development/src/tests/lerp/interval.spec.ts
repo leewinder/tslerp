@@ -1,6 +1,6 @@
 import { Intervals } from '../../lib/lerp/interval';
 
-describe("Interval Tests", () => {
+describe('Interval Tests', () => {
 
     // Called before each test
     beforeEach(function () {
@@ -12,7 +12,7 @@ describe("Interval Tests", () => {
         jasmine.clock().uninstall();
     });
 
-    it("Interval triggers after fixed interval", function () {
+    it('Interval triggers after fixed interval', function () {
 
         let numberOfTimesCalled = 0;
 
@@ -29,7 +29,7 @@ describe("Interval Tests", () => {
 
     });
 
-    it("Interval doesn't trigger before interval", function () {
+    it('Interval doesn\'t trigger before interval', function () {
 
         let numberOfTimesCalled = 0;
 
@@ -46,7 +46,7 @@ describe("Interval Tests", () => {
 
     });
 
-    it("Interval triggers multiple times", function () {
+    it('Interval triggers multiple times', function () {
 
         let numberOfTimesCalled = 0;
 
@@ -64,7 +64,7 @@ describe("Interval Tests", () => {
 
     });
 
-    it("Interval stops when return is false", function () {
+    it('Interval stops when return is false', function () {
 
         let numberOfTimesCalled = 0;
 
