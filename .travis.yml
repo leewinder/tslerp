@@ -21,7 +21,7 @@ install:
 # We want any of these steps to fail the entire build
 script:
   - cd "development" 
-    && tsc -p tsconfig.ci.json 
+    && tsc -p tsconfig-ci.json 
     && npm test
     && cd "../automation" 
     && python prepare_distribution_package.py 
