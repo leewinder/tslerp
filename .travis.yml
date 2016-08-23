@@ -1,0 +1,35 @@
+# Language
+language: node_js
+node_js:
+  - "node"
+
+
+# Branches to build
+branches:
+  only:
+    - master
+    - develop
+
+# Install step
+install:
+  - npm install
+  - npm install -g npm-cli-login
+
+# Build the library
+# We want any of these steps to fail the entire build
+script:
+  - cd "development" 
+    && tsc -p tsconfig-ci.json 
+    && npm test
+    && cd "../automation" 
+    && python prepare_distribution_package.py 
+    && python create_local_package.py
+    && python publish_release_package.py
+
+# Notifications
+notifications:
+  email:
+    recipients:
+      - lee.winder@gmail.com
+    on_success: change
+    on_failure: change
