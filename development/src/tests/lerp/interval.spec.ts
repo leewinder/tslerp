@@ -246,4 +246,30 @@ describe('Interval Tests', () => {
         expect(numberOfTimesCallback2).toBe(1);
 
     });
+
+    it('Multiple intervals added in future', function () {
+
+        let numberOfTimesCallback1 = 0;
+        let numberOfTimesCallback2 = 0;
+
+        // Set up our intervals and start it
+        this.intervals.start(() => {
+            ++numberOfTimesCallback1;
+            return true;
+        });
+        jasmine.clock().tick(Intervals.DEFAULT_MILLISECOND_INTERVAL * 5);
+
+        this.intervals.start(() => {
+            ++numberOfTimesCallback2;
+            return true;
+        });
+
+        // Move on
+        jasmine.clock().tick(Intervals.DEFAULT_MILLISECOND_INTERVAL * 3);
+
+        // Both should have run, second should have only run once
+        expect(numberOfTimesCallback2).toBeGreaterThan(1);
+        expect(numberOfTimesCallback1).toBeGreaterThan(numberOfTimesCallback2);
+
+    });
 });
