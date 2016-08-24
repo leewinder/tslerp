@@ -70,7 +70,7 @@ class ClassToLerpSomething {
     // The format of the function is define([ [start, end], ...], duration);
     // The following defines two data sets, one to lerp between 0 and 10, and one
     // to lerp between 30 and 50.  Both sets will take 10 seconds to complete
-    tsLerp.define([ [0, 10], [30, 50] ], 10);
+    this.tsLerp.define([ [0, 10], [30, 50] ], 10);
     
     // Trigger the lerp, providing a callback that will be called constantly
     // as the lerp progresses from start to finish
@@ -78,7 +78,7 @@ class ClassToLerpSomething {
     // This callback will be called every 33 milliseconds providing a constent
     // 30 FPS on stable systems.  For none stable systems, the transition is
     // framerate independent to will always take the defined amount of time to finish
-    tsLerp.lerp((results: number[], time: number) => {
+    this.tsLerp.lerp((results: number[], time: number) => {
       this.lerpCallback(results, time);
     });
   }
@@ -122,12 +122,12 @@ class ClassToLerpSomething {
     if (time === 1) {
     
       // Define a lerp between [10..100] over 5 seconds
-      tsLerp.define([ [10, 100] ], 5);
+      this.tsLerp.define([ [10, 100] ], 5);
       
       // We can use the same callback or a different callback depending on
       // the expected results.  Note in this case, we're creating an infinite
       // loop of lerp events, something you probably don't want to do...
-      tsLerp.lerp((results: number[], time: number) => {
+      this.tsLerp.lerp((results: number[], time: number) => {
         this.lerpCallback(results, time);
       });
     }
@@ -150,7 +150,7 @@ class ClassToLerpSomething {
   public startTransition() {
     
     // Define a lerp that eases out of the transition using a quadratic path
-    tsLerp.define([ [0, 10], [30, 50] ], 10, Transition.EaseOut, Style.Quadratic);
+    this.tsLerp.define([ [0, 10], [30, 50] ], 10, Transition.EaseOut, Style.Quadratic);
     
     ...
   }
@@ -171,7 +171,50 @@ Given that this library is in it's infancy only the following styles are current
 - Style
   - Quadratic
 
+### Controlling an in-progress lerp
+It is possible to pause or delay an in-progress lerp in response to external events
 
+```TypeScript
+// Import the lerp class from tslerp
+import { TsLerp } from 'tslerp';
+
+class ClassToLerpSomething {
+
+  ...
+  
+  // Generic event indicating the page or animation needs to pause
+  private onSomeEventToPause() {
+    
+    // You can call TsLerp.pause to stop the current transition
+    // This will stop the lerp from progressing and stop all calls
+    // to the user provided callback in TsLerp.lerp.
+    this.tsLerp.pause(true);
+    
+    ...
+  }
+  
+  // Generic event indicating the page or animation can continue
+  private onSomeEventToResume() {
+    
+    // You can call TsLerp.pause to resume the current transition
+    // This will start the progression of the lerp again and resume 
+    // calls to the user provided callback in TsLerp.lerp.
+    this.tsLerp.pause(false);
+    
+    ...
+  }
+  
+  // Generic event indicating the transition needs to terminate
+  private onSomeEventToStop() {
+    
+    // You can call TsLerp.stop to cancel the current lerp and
+    // stop all calls to the user defined callback in tsLerp.lerp
+    this.tsLerp.stop()
+    
+    ...
+  }
+}
+```
 
 
 
