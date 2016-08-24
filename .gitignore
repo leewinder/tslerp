@@ -6,3 +6,4 @@ development/src/**/*.js
 development/src/**/*.d.ts
 release
 *.pyc
+*.log
