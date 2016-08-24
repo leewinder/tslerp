@@ -48,6 +48,8 @@ export class Lerp {
 
         this.transition = transition;
         this.style = style;
+
+        this.clientCallback = null;
     }
 
     //

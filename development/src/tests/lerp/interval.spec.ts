@@ -270,4 +270,79 @@ describe('Interval Tests', () => {
         expect(numberOfTimesCallback1).toBeGreaterThan(numberOfTimesCallback2);
 
     });
+
+    it('Chaining intervals runs in sequence when cancelled', function (done) {
+
+        let numberOfTimesCallback1 = 0;
+        let numberOfTimesCallback2 = 0;
+
+        // Disable the Jasmine clock so we can time out correctly
+        jasmine.clock().uninstall();
+
+        // Set up our intervals and start it
+        this.intervals.start(() => {
+            ++numberOfTimesCallback1;
+
+            if (numberOfTimesCallback1 === 3) {
+
+                // Trigger off a new one
+                this.intervals.start(() => {
+                    ++numberOfTimesCallback2;
+                    return Continuation.Cancel;
+                });
+                return Continuation.Cancel;
+            } else {
+                return Continuation.Continue;
+            }
+        });
+
+        // Wait
+        setTimeout(() => {
+
+            // Should have been called the right amount of time
+            expect(numberOfTimesCallback1).toBe(3);
+            expect(numberOfTimesCallback2).toBe(1);
+
+            // Done
+            done();
+
+        }, 200);
+
+    });
+
+    it('Chaining intervals runs in sequence when continuing', function (done) {
+
+        let numberOfTimesCallback1 = 0;
+        let numberOfTimesCallback2 = 0;
+
+        // Disable the Jasmine clock so we can time out correctly
+        jasmine.clock().uninstall();
+
+        // Set up our intervals and start it
+        this.intervals.start(() => {
+            ++numberOfTimesCallback1;
+
+            if (numberOfTimesCallback1 === 3) {
+
+                // Trigger off a new one
+                this.intervals.start(() => {
+                    ++numberOfTimesCallback2;
+                    return Continuation.Continue;
+                });
+            }
+            // Continue
+            return Continuation.Continue;
+        });
+
+
+        // Wait
+        setTimeout(() => {
+
+            // Should have been called the right amount of time
+            expect(numberOfTimesCallback1).toBe(numberOfTimesCallback2 + 3);
+            done();
+
+        }, 300);
+
+    });
 });

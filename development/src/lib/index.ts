@@ -1,4 +1,4 @@
-export { Lerp as tsLerp }                   from './lerp/lerp.ts';
-export { Transition as tsLerpTransition }   from './lerp/lerp.ts';
-export { Style as tsLerpStyle }             from './lerp/lerp.ts';
+export { Lerp as TsLerp }                   from './lerp/lerp';
+export { Transition as TsLerpTransition }   from './lerp/lerp';
+export { Style as TsLerpStyle }             from './lerp/lerp';
 

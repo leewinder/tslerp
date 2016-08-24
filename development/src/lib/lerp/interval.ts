@@ -82,18 +82,25 @@ export class Intervals {
         // Only enable the callbacks if we're not paused
         if (this.paused === false) {
 
-            // Trigger the clients callbacks
-            for (let i = 0; i < this.clientCallbacks.length; i++) {
+            // We need to make a deep copy of the callback lists
+            // so clients can add intervals during a callback
+            let currentCallbacks: ((timeDelat: number) => Continuation)[] = [];
+            for (let i = 0; i < this.clientCallbacks.length; ++i) {
+                currentCallbacks.push(this.clientCallbacks[i]);
+            }
 
-                let thisCallback = this.clientCallbacks[i];
+            // Trigger the clients callbacks
+            for (let i = 0; i < currentCallbacks.length; i++) {
+
+                let thisCallback = currentCallbacks[i];
                 let continueWithInterval: Continuation = thisCallback(timeDelta);
 
                 // Should we continue with this callback?
                 if (continueWithInterval === Continuation.Cancel) {
-
-                    // Remove this callback and step back so we catch the next one
-                    this.clientCallbacks.splice(i, 1);
-                    --i;
+                    let callbackIndex = this.clientCallbacks.indexOf(thisCallback);
+                    if (callbackIndex !== -1) {
+                        this.clientCallbacks.splice(callbackIndex, 1);
+                    }
                 }
             }
         }
