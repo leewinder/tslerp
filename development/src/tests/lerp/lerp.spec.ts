@@ -65,6 +65,7 @@ describe('Lerp Tests', () => {
 
     // Hard to indicate what these values _should_ be, so hard coded
     it('Lerp increases in value - Transition.EaseOut, Style.Quadratic', function (done) {
+
         this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseOut, Style.Quadratic);
 
         // Uninstall the clock so our setTimeout works correctly
@@ -88,11 +89,11 @@ describe('Lerp Tests', () => {
         setTimeout(() => {
 
             // Expect our increased values to be around the same each time
-            expect(firstResult[0]).toBeCloseTo(0.00718704, 2);
-            expect(firstResult[1]).toBeCloseTo(3.01437408, 2);
+            expect(firstResult[0]).toBeCloseTo(0.00718704, 1);
+            expect(firstResult[1]).toBeCloseTo(3.01437408, 1);
 
-            expect(secondResult[0]).toBeCloseTo(0.0159359, 2);
-            expect(secondResult[1]).toBeCloseTo(3.031872, 2);
+            expect(secondResult[0]).toBeCloseTo(0.0159359, 1);
+            expect(secondResult[1]).toBeCloseTo(3.031872, 1);
 
             expect(secondResult[0]).toBeGreaterThan(firstResult[0]);
             expect(secondResult[1]).toBeGreaterThan(firstResult[1]);
@@ -101,6 +102,88 @@ describe('Lerp Tests', () => {
             done();
 
         }, 300);
+    });
+
+    // Hard to indicate what these values _should_ be, so hard coded
+    it('Pause temporarily stops the lerp', function (done) {
+
+        this.lerp.define([[0, 1]], 10);
+
+        // Uninstall the clock so our setTimeout works correctly
+        // as mocking the clock doesn't really trigger our intervals
+        jasmine.clock().uninstall();
+
+        // We need to track multiple values
+        let lerpResults: number[] = null;
+        this.lerp.lerp((results: number[], time: number) => {
+            lerpResults = results;
+        });
+
+        // Spin through this a couple of times
+        setTimeout(() => {
+
+            // Pause after we've gone through a couple of iterations
+            this.lerp.pause(true);
+            let previousResults: number[] = lerpResults;
+
+            // Run again, nothing should happen
+            setTimeout(() => {
+
+                // Check the values are the same after the pause
+                expect(lerpResults[0]).toBe(previousResults[0]);
+                this.lerp.pause(false);
+
+                // Run again, we should continue now
+                setTimeout(() => {
+                    // We should have moved one and we're done
+                    expect(lerpResults[0]).toBeGreaterThan(previousResults[0]);
+                    done();
+                }, 50);
+
+            }, 50);
+
+        }, 50);
+    });
+
+    // Hard to indicate what these values _should_ be, so hard coded
+    it('Stop terminates the lerp', function (done) {
+
+        this.lerp.define([[0, 1]], 10);
+
+        // Uninstall the clock so our setTimeout works correctly
+        // as mocking the clock doesn't really trigger our intervals
+        jasmine.clock().uninstall();
+
+        // We need to track multiple values
+        let lerpResults: number[] = null;
+        this.lerp.lerp((results: number[], time: number) => {
+            lerpResults = results;
+        });
+
+        // Spin through this a couple of times
+        setTimeout(() => {
+
+            // Pause after we've gone through a couple of iterations
+            this.lerp.stop();
+            let previousResults: number[] = lerpResults;
+
+            // Run again, nothing should happen
+            setTimeout(() => {
+
+                // Check the values are the same after the stop
+                expect(lerpResults[0]).toBe(previousResults[0]);
+
+                // Run again, we should continue now
+                setTimeout(() => {
+
+                    // Check the values are the same after the stop
+                    expect(lerpResults[0]).toBe(previousResults[0]);
+                    done();
+                }, 50);
+
+            }, 50);
+
+        }, 50);
     });
 
 });
