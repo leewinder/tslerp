@@ -334,7 +334,6 @@ describe('Interval Tests', () => {
             return Continuation.Continue;
         });
 
-
         // Wait
         setTimeout(() => {
 

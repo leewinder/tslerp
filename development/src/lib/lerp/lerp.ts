@@ -127,11 +127,6 @@ export class Lerp {
 
         // Are we finished?
         let finished: boolean = (currentTime === 1);
-        if (finished === true) {
-            this.clientCallback = null;
-        }
-
-        // Return our state
         return finished === true ? Continuation.Cancel : Continuation.Continue;
     }
 

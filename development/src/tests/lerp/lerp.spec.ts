@@ -186,4 +186,37 @@ describe('Lerp Tests', () => {
         }, 50);
     });
 
+    // Hard to indicate what these values _should_ be, so hard coded
+    it('Able to chain lerps', function (done) {
+
+        this.lerp.define([[0, 1]], 0.2);
+
+        // Uninstall the clock so our setTimeout works correctly
+        // as mocking the clock doesn't really trigger our intervals
+        jasmine.clock().uninstall();
+
+        // We need to track multiple values
+        let timeInFirst = 0;
+        let timeInSecond = 0;
+        this.lerp.lerp((results: number[], time: number) => {
+            timeInFirst = time;
+            if (timeInFirst === 1) {
+                this.lerp.define([[0, 1]], 0.2);
+                this.lerp.lerp((secondResults: number[], secondTime: number) => {
+                    timeInSecond = secondTime;
+                });
+            }
+        });
+
+        // Spin through this a couple of times
+        setTimeout(() => {
+            // First and second will have run
+            expect(timeInFirst).toBe(1);
+            expect(timeInSecond).toBe(1);
+
+            done();
+
+        }, 500);
+    });
+
 });
