@@ -1,9 +1,7 @@
 import { Intervals } from '../../lib/lerp/interval';
+import { Continuation } from '../../lib/lerp/interval';
 
 describe('Interval Tests', () => {
-
-    // Per test properties
-    let intervals: Intervals = null;
 
     // Called before each test
     beforeEach(function () {
@@ -40,7 +38,7 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCalled;
-            return false;
+            return Continuation.Cancel;
         });
 
         // Move on
@@ -57,7 +55,7 @@ describe('Interval Tests', () => {
         this.intervals.start(() => {
 
             ++numberOfTimesCalled;
-            return (numberOfTimesCalled === 5 ? false : true);
+            return (numberOfTimesCalled === 5 ? Continuation.Cancel : Continuation.Continue);
         });
 
         // Move on
@@ -74,7 +72,7 @@ describe('Interval Tests', () => {
         this.intervals.start(() => {
 
             ++numberOfTimesCalled;
-            return (numberOfTimesCalled === 3 ? false : true);
+            return (numberOfTimesCalled === 3 ? Continuation.Cancel : Continuation.Continue);
         });
 
         // Move on
@@ -90,7 +88,7 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCalled;
-            return true;
+            return Continuation.Continue;
         });
 
         // Move on
@@ -115,7 +113,7 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCalled;
-            return true;
+            return Continuation.Continue;
         });
 
         // Move on
@@ -126,7 +124,7 @@ describe('Interval Tests', () => {
         let timesAlreadyCalled = numberOfTimesCalled;
         this.intervals.start(() => {
             ++numberOfTimesCalled;
-            return true;
+            return Continuation.Continue;
         });
 
         // Move on a bit more
@@ -144,7 +142,7 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCalled;
-            return true;
+            return Continuation.Continue;
         });
 
         // Move on
@@ -174,7 +172,7 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCalled;
-            return true;
+            return Continuation.Continue;
         });
 
         // Move on
@@ -188,7 +186,7 @@ describe('Interval Tests', () => {
         this.intervals.stop();
         this.intervals.start(() => {
             ++numberOfTimesCalled;
-            return true;
+            return Continuation.Continue;
         });
 
         // Move on a bit more
@@ -207,11 +205,11 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCallback1;
-            return false;
+            return Continuation.Cancel;
         });
         this.intervals.start(() => {
             ++numberOfTimesCallback2;
-            return false;
+            return Continuation.Cancel;
         });
 
         // Move on
@@ -231,11 +229,11 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCallback1;
-            return true;
+            return Continuation.Continue;
         });
         this.intervals.start(() => {
             ++numberOfTimesCallback2;
-            return false;
+            return Continuation.Cancel;
         });
 
         // Move on
@@ -255,13 +253,13 @@ describe('Interval Tests', () => {
         // Set up our intervals and start it
         this.intervals.start(() => {
             ++numberOfTimesCallback1;
-            return true;
+            return Continuation.Continue;
         });
         jasmine.clock().tick(Intervals.DEFAULT_MILLISECOND_INTERVAL * 5);
 
         this.intervals.start(() => {
             ++numberOfTimesCallback2;
-            return true;
+            return Continuation.Continue;
         });
 
         // Move on

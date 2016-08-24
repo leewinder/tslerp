@@ -1,4 +1,10 @@
 
+// Continuation state for interval callbacks
+export enum Continuation {
+    Continue,
+    Cancel,
+}
+
 //
 // Updates intervals until complete and calls a callback when done
 //
@@ -10,7 +16,7 @@ export class Intervals {
 
     private paused: boolean = false;
 
-    private clientCallbacks: ((timeDelat: number) => boolean)[] = [];
+    private clientCallbacks: ((timeDelat: number) => Continuation)[] = [];
 
     // Constants
     public static get DEFAULT_MILLISECOND_INTERVAL(): number { return 33; }
@@ -18,7 +24,7 @@ export class Intervals {
     //
     // Starts the interval
     //
-    public start(clientCallback: (timeDelta: number) => boolean) {
+    public start(clientCallback: (timeDelta: number) => Continuation) {
 
         // Add this to the list
         this.clientCallbacks.push(clientCallback);
@@ -80,10 +86,10 @@ export class Intervals {
             for (let i = 0; i < this.clientCallbacks.length; i++) {
 
                 let thisCallback = this.clientCallbacks[i];
-                let continueWithInterval: boolean = thisCallback(timeDelta);
+                let continueWithInterval: Continuation = thisCallback(timeDelta);
 
                 // Should we continue with this callback?
-                if (continueWithInterval === false) {
+                if (continueWithInterval === Continuation.Cancel) {
 
                     // Remove this callback and step back so we catch the next one
                     this.clientCallbacks.splice(i, 1);
