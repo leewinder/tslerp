@@ -8,21 +8,22 @@ export class Intervals {
     private setIntervalHandle: any = null;
     private setIntervalLastTime: number = 0;
 
+    private paused: boolean = false;
+
+    private clientCallbacks: ((timeDelat: number) => boolean)[] = [];
+
     // Constants
     public static get DEFAULT_MILLISECOND_INTERVAL(): number { return 33; }
 
     //
-    // Constructor
-    //
-    constructor(private clientCallback: (timeDelta: number) => boolean) {
-    }
-
-    //
     // Starts the interval
     //
-    start() {
+    public start(clientCallback: (timeDelta: number) => boolean) {
 
-        // If we have a valid interval, don't bother
+        // Add this to the list
+        this.clientCallbacks.push(clientCallback);
+
+        // If we have a valid interval, don't bother continuing as we're already running
         if (this.setIntervalHandle !== null) {
             return;
         }
@@ -33,24 +34,70 @@ export class Intervals {
     }
 
     //
+    // Manually stops the interval
+    //
+    public stop() {
+
+        // Clear the callbacks
+        this.clientCallbacks = [];
+        this.paused = false;
+
+        // If we don't have an interval, we have nothing to do
+        if (this.setIntervalHandle === null) {
+            return;
+        }
+
+        // Simply stop the interval
+        clearInterval(this.setIntervalHandle);
+        this.setIntervalHandle = null;
+    }
+
+    //
+    // Pauses the current interval
+    //
+    public pause(pause: boolean) {
+        this.paused = pause;
+    }
+
+    //
     // Interval callback
     //
     private setIntervalCallback() {
+
+        // If we don't have an interval handle, we cannot continue
+        if (this.setIntervalHandle === null) {
+            return;
+        }
 
         // Before we get the callback, callculate the time difference
         let currentTime = (new Date()).getTime();
         let timeDelta = (currentTime - this.setIntervalLastTime) / 1000;
 
-        // Trigger the clients callback
-        let continueWithInterval: boolean = this.clientCallback(timeDelta);
+        // Only enable the callbacks if we're not paused
+        if (this.paused === false) {
+
+            // Trigger the clients callbacks
+            for (let i = 0; i < this.clientCallbacks.length; i++) {
+
+                let thisCallback = this.clientCallbacks[i];
+                let continueWithInterval: boolean = thisCallback(timeDelta);
+
+                // Should we continue with this callback?
+                if (continueWithInterval === false) {
+
+                    // Remove this callback and step back so we catch the next one
+                    this.clientCallbacks.splice(i, 1);
+                    --i;
+                }
+            }
+        }
 
         // Save our callback time
         this.setIntervalLastTime = currentTime;
 
         // Should we continue
-        if (continueWithInterval === false) {
-            clearInterval(this.setIntervalHandle);
-            this.setIntervalHandle = null;
+        if (this.clientCallbacks.length === 0) {
+            this.stop();
         }
     }
 
