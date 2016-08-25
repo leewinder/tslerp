@@ -210,7 +210,7 @@ class ClassToLerpSomething {
 }
 ```
 
-The following animations show the various transitions and styles available, samples over a 1 second period.  All animations were captured from ![Easing Equations by Robert Penner](http://gizma.com/easing/#cub3)
+The following animations show the various transitions and styles available, samples over a 1 second period.  All animations were captured from [Easing Equations by Robert Penner](http://gizma.com/easing/#cub3)
 
 #### Style: Linear 
 Note that the `TsLerpTransition` option is ignored when choosing a Linear style
@@ -264,3 +264,18 @@ Note that the `TsLerpTransition` option is ignored when choosing a Linear style
 ##### Transition: Ease In and Out
 ![expo in out](https://cloud.githubusercontent.com/assets/1649415/17978669/0a4a4196-6aef-11e6-8c3e-d21d8ae7034a.gif)
 
+
+<br>
+
+## Change Log
+
+### 1.0.1
+* Updated correct acknowledgment for [Easing Equations by Robert Penner](http://gizma.com/easing/#cub3)
+
+### 1.0.0
+* Added support for Linear, Sine, Cubic and Exponential styles
+* Added support for Ease In, Out and In/Out transitions for all styles
+
+### 0.0.1
+* Initial release
+* Support for Ease In Quadratic lerps only
