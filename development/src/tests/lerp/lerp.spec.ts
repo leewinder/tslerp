@@ -207,7 +207,7 @@ describe('Lerp Tests:', () => {
         it('Lerp increases in value - Transition.EaseOut, Style.Cubic', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseOut, Style.Cubic);
-            checkLerpOverTime(done, this.lerp, 0.025283, 0.05303, 0.004, 3.050567, 3.106067, 0.01);
+            checkLerpOverTime(done, this.lerp, 0.025283, 0.05303, 0.01, 3.050567, 3.106067, 0.01);
         });
 
         // Hard to indicate what these values _should_ be, so hard coded
