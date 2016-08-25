@@ -20,7 +20,7 @@ Typescript library for lerping single and multi-sample data sets over time acros
 ## Installation
 1. Add the package to your 'dependencies' list in `package.json` and run `npm install`
 
-  `"tslerp": "^0.0.1"`
+  `"tslerp": "^1.0.2"`
   
   Optionally, you can manually install the package using the npm command line
 
@@ -210,7 +210,7 @@ class ClassToLerpSomething {
 }
 ```
 
-The following animations show the various transitions and styles available, samples over a 1 second period.  All animations were captured from [Easing Equations by Robert Penner](http://gizma.com/easing/#cub3)
+The following animations show the various transitions and styles available, samples over a 1 second period.  All animations were captured from [Easing Equations by Robert Penner](http://gizma.com/easing/)
 
 #### Style: Linear 
 Note that the `TsLerpTransition` option is ignored when choosing a Linear style
@@ -269,8 +269,11 @@ Note that the `TsLerpTransition` option is ignored when choosing a Linear style
 
 ## Change Log
 
+### 1.0.2
+* Minor readme updates
+
 ### 1.0.1
-* Updated correct acknowledgment for [Easing Equations by Robert Penner](http://gizma.com/easing/#cub3)
+* Updated correct acknowledgment for [Easing Equations by Robert Penner](http://gizma.com/easing/)
 
 ### 1.0.0
 * Added support for Linear, Sine, Cubic and Exponential styles
