@@ -61,6 +61,22 @@ describe('Lerp Tests', () => {
             this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Linear);
             checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
         });
+
+        // Sine
+        it('Lerp completes after given duration - EaseOut Sine', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Sine);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
+
+        it('Lerp completes after given duration - EaseIn Sine', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Sine);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
+
+        it('Lerp completes after given duration - EaseInOut Sine', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Sine);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
     });
 
     // Increases in Lerp Value tests
@@ -71,21 +87,21 @@ describe('Lerp Tests', () => {
         it('Lerp increases in value - Transition.EaseOut, Style.Quadratic', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseOut, Style.Quadratic);
-            checkLerpOverTime(done, this.lerp, 0.00718704, 0.0159359, 2, 3.01437408, 3.031872, 2);
+            checkLerpOverTime(done, this.lerp, 0.00718704, 0.0159359, 0.01, 3.01437408, 3.031872, 0.01);
         });
 
         // Hard to indicate what these values _should_ be, so hard coded
         it('Lerp increases in value - Transition.EaseIn, Style.Quadratic', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseIn, Style.Quadratic);
-            checkLerpOverTime(done, this.lerp, 0.00001225, 0.00004761, 4, 3.00009522, 3.00009522, 3);
+            checkLerpOverTime(done, this.lerp, 0.00001225, 0.00004761, 0.003, 3.00009522, 3.00009522, 0.005);
         });
 
         // Hard to indicate what these values _should_ be, so hard coded
         it('Lerp increases in value - Transition.EaseInOut, Style.Quadratic', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseInOut, Style.Quadratic);
-            checkLerpOverTime(done, this.lerp, 0.0000231, 0.0001008, 4, 3.000046, 3.0002016, 4);
+            checkLerpOverTime(done, this.lerp, 0.0000231, 0.0001008, 0.003, 3.000046, 3.0002016, 0.005);
         });
 
         // Linear
@@ -93,21 +109,43 @@ describe('Lerp Tests', () => {
         it('Lerp increases in value - Transition.EaseOut, Style.Linear', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseOut, Style.Linear);
-            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 2, 3.020, 3.033, 2);
+            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 0.01, 3.020, 3.033, 0.01);
         });
 
         // Hard to indicate what these values _should_ be, so hard coded
         it('Lerp increases in value - Transition.EaseIn, Style.Linear', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseIn, Style.Linear);
-            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 2, 3.020, 3.033, 2);
+            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 0.01, 3.020, 3.033, 0.01);
         });
 
         // Hard to indicate what these values _should_ be, so hard coded
         it('Lerp increases in value - Transition.EaseInOut, Style.Linear', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseInOut, Style.Linear);
-            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 2, 3.020, 3.033, 2);
+            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 0.01, 3.020, 3.033, 0.01);
+        });
+
+        // Sine
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseOut, Style.Sine', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseOut, Style.Sine);
+            checkLerpOverTime(done, this.lerp, 0.013744, 0.02748, 0.003, 3.02748, 3.05497, 0.005);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseIn, Style.Sine', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseIn, Style.Sine);
+            checkLerpOverTime(done, this.lerp, 0.000105, 0.000399, 0.0003, 3.00021, 3.00079, 0.0003);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseInOut, Style.Sine', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseInOut, Style.Sine);
+            checkLerpOverTime(done, this.lerp, 0.000211, 0.00084, 0.0003, 3.000422, 3.00168, 0.0003);
         });
     });
 
@@ -270,8 +308,8 @@ describe('Lerp Tests', () => {
     // For a given lerp, tracks the expected value over time
     //
     function checkLerpOverTime(done: DoneFn, lerp: Lerp,
-        set1First: number, set1Second: number, set1Accuracy: number,
-        set2First: number, set2Second: number, set2Accuracy: number) {
+                               set1First: number, set1Second: number, set1Delta: number,
+                               set2First: number, set2Second: number, set2Delta: number) {
 
         // Uninstall the clock so our setTimeout works correctly
         // as mocking the clock doesn't really trigger our intervals
@@ -294,12 +332,20 @@ describe('Lerp Tests', () => {
         setTimeout(() => {
 
             // Expect our increased values to be around the same each time
-            expect(firstResult[0]).toBeCloseTo(set1First, set1Accuracy);
-            expect(firstResult[1]).toBeCloseTo(set2First, set2Accuracy);
+            expect(firstResult[0]).toBeGreaterThan(set1First - set1Delta);
+            expect(firstResult[0]).toBeLessThan(set1First + set1Delta);
 
-            expect(secondResult[0]).toBeCloseTo(set1Second, set1Accuracy);
-            expect(secondResult[1]).toBeCloseTo(set2Second, set2Accuracy);
+            expect(secondResult[0]).toBeGreaterThan(set1Second - set1Delta);
+            expect(secondResult[0]).toBeLessThan(set1Second + set1Delta);
 
+            // Second set values
+            expect(firstResult[1]).toBeGreaterThan(set2First - set2Delta);
+            expect(firstResult[1]).toBeLessThan(set2First + set2Delta);
+
+            expect(secondResult[1]).toBeGreaterThan(set2Second - set2Delta);
+            expect(secondResult[1]).toBeLessThan(set2Second + set2Delta);
+
+            // Second should always be bigger
             expect(secondResult[0]).toBeGreaterThan(firstResult[0]);
             expect(secondResult[1]).toBeGreaterThan(firstResult[1]);
 

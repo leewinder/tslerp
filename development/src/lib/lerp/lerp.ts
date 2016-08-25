@@ -15,7 +15,7 @@ export enum Transition {
 export enum Style {
     Linear,
     Quadratic,
-
+    Sine,
 }
 
 //
@@ -157,6 +157,8 @@ export class Lerp {
     //
     private constructLerpFunctions() {
 
+        // Quadratic
+
         // lerpStyleEaseOutQuadratic
         this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Quadratic]] =
             (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
@@ -175,6 +177,8 @@ export class Lerp {
                 return this.lerpStyleEaseInOutQuadratic(initial, lerpDistance, duration, currentTime);
             };
 
+        // Linear
+
         // lerpStyleLinear
         this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Linear]] =
             (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
@@ -188,6 +192,27 @@ export class Lerp {
             (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
                 return this.lerpStyleLinear(initial, lerpDistance, duration, currentTime);
             };
+
+        // Sine
+
+        // lerpStyleEaseOutSine
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Sine]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseOutSine(initial, lerpDistance, duration, currentTime);
+            };
+
+        // lerpStyleEaseInSine
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseIn] + Style[Style.Sine]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInSine(initial, lerpDistance, duration, currentTime);
+            };
+
+        // lerpStyleEaseInOutSine
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseInOut] + Style[Style.Sine]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInOutSine(initial, lerpDistance, duration, currentTime);
+            };
+
     }
 
     //
@@ -228,5 +253,26 @@ export class Lerp {
 
         currentTime--;
         return -lerpDistance / 2 * (currentTime * (currentTime - 2) - 1) + initial;
+    }
+
+    //
+    // Sine easing out
+    //
+    private lerpStyleEaseOutSine(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+        return lerpDistance * Math.sin(currentTime / duration * (Math.PI / 2)) + initial;
+    }
+
+    //
+    // Sine easing in
+    //
+    private lerpStyleEaseInSine(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+        return -lerpDistance * Math.cos(currentTime / duration * (Math.PI / 2)) + lerpDistance + initial;
+    }
+
+    //
+    // Sine easing in/out
+    //
+    private lerpStyleEaseInOutSine(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+        return -lerpDistance / 2 * (Math.cos(Math.PI * currentTime / duration) - 1) + initial;
     }
 }
