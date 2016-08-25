@@ -2,7 +2,7 @@ import { Lerp } from '../../lib/lerp/lerp';
 import { Transition } from '../../lib/lerp/lerp';
 import { Style } from '../../lib/lerp/lerp';
 
-describe('Lerp Tests', () => {
+describe('Lerp Tests:', () => {
 
     // Called before each test
     beforeEach(function () {
@@ -28,7 +28,7 @@ describe('Lerp Tests', () => {
     });
 
     // Completion at end tests
-    describe('Completion values at time === 1', () => {
+    describe('Completion values at time === 1:', () => {
 
         // Quadratic
         it('Lerp completes after given duration - EaseOut Quadratic', function () {
@@ -53,34 +53,50 @@ describe('Lerp Tests', () => {
         });
 
         it('Lerp completes after given duration - EaseIn Linear', function () {
-            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Linear);
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseIn, Style.Linear);
             checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
         });
 
         it('Lerp completes after given duration - EaseInOut Linear', function () {
-            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Linear);
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseInOut, Style.Linear);
             checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
         });
 
         // Sine
         it('Lerp completes after given duration - EaseOut Sine', function () {
             this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Sine);
-            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10, 0.0001);
         });
 
         it('Lerp completes after given duration - EaseIn Sine', function () {
-            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Sine);
-            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseIn, Style.Sine);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10, 0.0001);
         });
 
         it('Lerp completes after given duration - EaseInOut Sine', function () {
-            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Sine);
-            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseInOut, Style.Sine);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10, 0.0001);
+        });
+
+        // Exponential
+        it('Lerp completes after given duration - EaseOut Exponential', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Exponential);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10, 0.005);
+        });
+
+        it('Lerp completes after given duration - EaseIn Exponential', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseIn, Style.Exponential);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10, 0.005);
+        });
+
+        it('Lerp completes after given duration - EaseInOut Exponential', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseInOut, Style.Exponential);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10, 0.005);
         });
     });
 
     // Increases in Lerp Value tests
-    describe('Increase of lerp values over time', () => {
+    describe('Increase of lerp values over time:', () => {
 
         // Quadratic
         // Hard to indicate what these values _should_ be, so hard coded
@@ -285,7 +301,7 @@ describe('Lerp Tests', () => {
     //
     // Checks for a given lerp that after the run, the lerp is complete, time is at 1 and we're at the end values
     //
-    function checkLerpCompletesAtOne(lerp: Lerp, rangeOne: number, rangeTwo: number, duration: number) {
+    function checkLerpCompletesAtOne(lerp: Lerp, rangeOne: number, rangeTwo: number, duration: number, delta = 0) {
 
         let lastResults: number[] = [0, 0];
         let lastTime = 0;
@@ -299,8 +315,12 @@ describe('Lerp Tests', () => {
         jasmine.clock().tick(1000 * duration);
 
         // Check we finished
-        expect(lastResults[0]).toBe(rangeOne);
-        expect(lastResults[1]).toBe(rangeTwo);
+        expect(lastResults[0] >= (rangeOne - delta)).toBeTruthy();
+        expect(lastResults[0] <= (rangeOne + delta)).toBeTruthy();
+
+        expect(lastResults[1] >= (rangeTwo - delta)).toBeTruthy();
+        expect(lastResults[1] <= (rangeTwo + delta)).toBeTruthy();
+
         expect(lastTime).toBe(1);
     }
 

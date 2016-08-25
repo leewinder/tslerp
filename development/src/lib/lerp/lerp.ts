@@ -16,6 +16,7 @@ export enum Style {
     Linear,
     Quadratic,
     Sine,
+    Exponential
 }
 
 //
@@ -213,6 +214,26 @@ export class Lerp {
                 return this.lerpStyleEaseInOutSine(initial, lerpDistance, duration, currentTime);
             };
 
+        // Exponential
+
+        // lerpStyleEaseOutExponential
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Exponential]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseOutExponential(initial, lerpDistance, duration, currentTime);
+            };
+
+        // lerpStyleEaseInExponential
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseIn] + Style[Style.Exponential]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInExponential(initial, lerpDistance, duration, currentTime);
+            };
+
+        // lerpStyleEaseInOutExponential
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseInOut] + Style[Style.Exponential]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInOutExponential(initial, lerpDistance, duration, currentTime);
+            };
+
     }
 
     //
@@ -274,5 +295,33 @@ export class Lerp {
     //
     private lerpStyleEaseInOutSine(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
         return -lerpDistance / 2 * (Math.cos(Math.PI * currentTime / duration) - 1) + initial;
+    }
+
+    //
+    // Exponential easing out
+    //
+    private lerpStyleEaseOutExponential(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+        return lerpDistance * (-Math.pow(2, -10 * currentTime / duration) + 1) + initial;
+    }
+
+    //
+    // Exponential easing in
+    //
+    private lerpStyleEaseInExponential(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+        return lerpDistance * Math.pow(2, 10 * (currentTime / duration - 1)) + initial;
+    }
+
+    //
+    // Exponential easing in/out
+    //
+    private lerpStyleEaseInOutExponential(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+
+        currentTime /= duration / 2;
+        if (currentTime < 1) {
+            return lerpDistance / 2 * Math.pow(2, 10 * (currentTime - 1)) + initial;
+        }
+
+        currentTime--;
+        return lerpDistance / 2 * (-Math.pow(2, -10 * currentTime) + 2) + initial;
     }
 }
