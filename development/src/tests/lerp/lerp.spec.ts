@@ -27,14 +27,88 @@ describe('Lerp Tests', () => {
         this.lerp.define([[0, 1]], 10, Transition.EaseOut, Style.Quadratic);
     });
 
-    it('Lerp completes after given duration - EaseOut Quadratic', function () {
-        this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Quadratic);
-        checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+    // Completion at end tests
+    describe('Completion values at time === 1', () => {
+
+        // Quadratic
+        it('Lerp completes after given duration - EaseOut Quadratic', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Quadratic);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
+
+        it('Lerp completes after given duration - EaseIn Quadratic', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseIn, Style.Quadratic);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
+
+        it('Lerp completes after given duration - EaseInOut Quadratic', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseInOut, Style.Quadratic);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
+
+        // Linear
+        it('Lerp completes after given duration - EaseOut Linear', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Linear);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
+
+        it('Lerp completes after given duration - EaseIn Linear', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Linear);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
+
+        it('Lerp completes after given duration - EaseInOut Linear', function () {
+            this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Linear);
+            checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+        });
     });
 
-    it('Lerp completes after given duration - EaseOut Linear', function () {
-        this.lerp.define([[0, 1], [3, 6]], 10, Transition.EaseOut, Style.Linear);
-        checkLerpCompletesAtOne(this.lerp, 1, 6, 10);
+    // Increases in Lerp Value tests
+    describe('Increase of lerp values over time', () => {
+
+        // Quadratic
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseOut, Style.Quadratic', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseOut, Style.Quadratic);
+            checkLerpOverTime(done, this.lerp, 0.00718704, 0.0159359, 2, 3.01437408, 3.031872, 2);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseIn, Style.Quadratic', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseIn, Style.Quadratic);
+            checkLerpOverTime(done, this.lerp, 0.00001225, 0.00004761, 4, 3.00009522, 3.00009522, 3);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseInOut, Style.Quadratic', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseInOut, Style.Quadratic);
+            checkLerpOverTime(done, this.lerp, 0.0000231, 0.0001008, 4, 3.000046, 3.0002016, 4);
+        });
+
+        // Linear
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseOut, Style.Linear', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseOut, Style.Linear);
+            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 2, 3.020, 3.033, 2);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseIn, Style.Linear', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseIn, Style.Linear);
+            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 2, 3.020, 3.033, 2);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseInOut, Style.Linear', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseInOut, Style.Linear);
+            checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 2, 3.020, 3.033, 2);
+        });
     });
 
     it('Lerp reports time in a linear manner', function () {
@@ -51,20 +125,6 @@ describe('Lerp Tests', () => {
 
         // Check we finished
         expect(lastTime).toBeCloseTo(0.5, 3);
-    });
-
-    // Hard to indicate what these values _should_ be, so hard coded
-    it('Lerp increases in value - Transition.EaseOut, Style.Quadratic', function (done) {
-
-        this.lerp.define([[0, 1], [3, 5]], 10, Transition.EaseOut, Style.Quadratic);
-        checkLerpOverTime(done, this.lerp, 0.00718704, 0.0159359, 1, 3.01437408, 3.031872, 1);
-    });
-
-    // Hard to indicate what these values _should_ be, so hard coded
-    it('Lerp increases in value - Transition.EaseOut, Style.Linear', function (done) {
-
-        this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseOut, Style.Linear);
-        checkLerpOverTime(done, this.lerp, 0.00925, 0.017, 2, 3.020, 3.033, 2);
     });
 
     // Hard to indicate what these values _should_ be, so hard coded
@@ -182,7 +242,6 @@ describe('Lerp Tests', () => {
         }, 500);
     });
 
-
     // Support Functions
 
     //
@@ -211,8 +270,8 @@ describe('Lerp Tests', () => {
     // For a given lerp, tracks the expected value over time
     //
     function checkLerpOverTime(done: DoneFn, lerp: Lerp,
-                               set1First: number, set1Second: number, set1Accuracy: number,
-                               set2First: number, set2Second: number, set2Accuracy: number) {
+        set1First: number, set1Second: number, set1Accuracy: number,
+        set2First: number, set2Second: number, set2Accuracy: number) {
 
         // Uninstall the clock so our setTimeout works correctly
         // as mocking the clock doesn't really trigger our intervals

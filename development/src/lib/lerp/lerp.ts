@@ -7,6 +7,8 @@ import { Continuation } from './interval';
 // Transition style
 export enum Transition {
     EaseOut,
+    EaseIn,
+    EaseInOut,
 }
 
 // Movement style
@@ -161,8 +163,28 @@ export class Lerp {
                 return this.lerpStyleEaseOutQuadratic(initial, lerpDistance, duration, currentTime);
             };
 
+        // lerpStyleEaseInQuadratic
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseIn] + Style[Style.Quadratic]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInQuadratic(initial, lerpDistance, duration, currentTime);
+            };
+
+        // lerpStyleEaseInOutQuadratic
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseInOut] + Style[Style.Quadratic]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInOutQuadratic(initial, lerpDistance, duration, currentTime);
+            };
+
         // lerpStyleLinear
         this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Linear]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleLinear(initial, lerpDistance, duration, currentTime);
+            };
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseIn] + Style[Style.Linear]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleLinear(initial, lerpDistance, duration, currentTime);
+            };
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseInOut] + Style[Style.Linear]] =
             (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
                 return this.lerpStyleLinear(initial, lerpDistance, duration, currentTime);
             };
@@ -183,5 +205,28 @@ export class Lerp {
 
         currentTime /= duration;
         return -lerpDistance * currentTime * (currentTime - 2) + initial;
+    }
+
+    //
+    // Quadratic easing in
+    //
+    private lerpStyleEaseInQuadratic(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+
+        currentTime /= duration;
+        return lerpDistance * currentTime * currentTime + initial;
+    }
+
+    //
+    // Quadratic easing in/out
+    //
+    private lerpStyleEaseInOutQuadratic(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+
+        currentTime /= duration / 2;
+        if (currentTime < 1) {
+            return (lerpDistance / 2) * currentTime * currentTime + initial;
+        }
+
+        currentTime--;
+        return -lerpDistance / 2 * (currentTime * (currentTime - 2) - 1) + initial;
     }
 }
