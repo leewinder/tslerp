@@ -16,7 +16,8 @@ export enum Style {
     Linear,
     Quadratic,
     Sine,
-    Exponential
+    Exponential,
+    Cubic,
 }
 
 //
@@ -234,6 +235,25 @@ export class Lerp {
                 return this.lerpStyleEaseInOutExponential(initial, lerpDistance, duration, currentTime);
             };
 
+        // Cubic
+
+        // lerpStyleEaseOutCubic
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Cubic]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseOutCubic(initial, lerpDistance, duration, currentTime);
+            };
+
+        // lerpStyleEaseInCubic
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseIn] + Style[Style.Cubic]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInCubic(initial, lerpDistance, duration, currentTime);
+            };
+
+        // lerpStyleEaseInOutCubic
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseInOut] + Style[Style.Cubic]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleEaseInOutCubic(initial, lerpDistance, duration, currentTime);
+            };
     }
 
     //
@@ -323,5 +343,38 @@ export class Lerp {
 
         currentTime--;
         return lerpDistance / 2 * (-Math.pow(2, -10 * currentTime) + 2) + initial;
+    }
+
+    //
+    // Cubic easing out
+    //
+    private lerpStyleEaseOutCubic(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+
+        currentTime /= duration;
+        currentTime--;
+        return lerpDistance * (currentTime * currentTime * currentTime + 1) + initial;
+    }
+
+    //
+    // Cubic easing in
+    //
+    private lerpStyleEaseInCubic(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+
+        currentTime /= duration;
+        return lerpDistance * currentTime * currentTime * currentTime + initial;
+    }
+
+    //
+    // Cubic easing in/out
+    //
+    private lerpStyleEaseInOutCubic(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+
+        currentTime /= duration / 2;
+        if (currentTime < 1) {
+            return lerpDistance / 2 * currentTime * currentTime * currentTime + initial;
+        }
+
+        currentTime -= 2;
+        return lerpDistance / 2 * (currentTime * currentTime * currentTime + 2) + initial;
     }
 }
