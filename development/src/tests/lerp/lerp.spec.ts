@@ -161,7 +161,29 @@ describe('Lerp Tests:', () => {
         it('Lerp increases in value - Transition.EaseInOut, Style.Sine', function (done) {
 
             this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseInOut, Style.Sine);
-            checkLerpOverTime(done, this.lerp, 0.000211, 0.00084, 0.0003, 3.000422, 3.00168, 0.0003);
+            checkLerpOverTime(done, this.lerp, 0.000211, 0.00084, 0.0003, 3.000422, 3.00168, 0.003);
+        });
+
+        // Exponential
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseOut, Style.Exponential', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseOut, Style.Exponential);
+            checkLerpOverTime(done, this.lerp, 0.060477, 0.12187, 0.03, 3.12095, 3.24374, 0.03);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseIn, Style.Exponential', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseIn, Style.Exponential);
+            checkLerpOverTime(done, this.lerp, 0.0010394, 0.001108, 0.002, 3.002078, 3.00221, 0.002);
+        });
+
+        // Hard to indicate what these values _should_ be, so hard coded
+        it('Lerp increases in value - Transition.EaseInOut, Style.Exponential', function (done) {
+
+            this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseInOut, Style.Exponential);
+            checkLerpOverTime(done, this.lerp, 0.0005493, 0.0006288, 0.002, 3.00109, 3.00125, 0.002);
         });
     });
 
