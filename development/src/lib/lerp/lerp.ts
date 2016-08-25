@@ -11,7 +11,9 @@ export enum Transition {
 
 // Movement style
 export enum Style {
+    Linear,
     Quadratic,
+
 }
 
 //
@@ -152,10 +154,26 @@ export class Lerp {
     // I'd like to do this a better way using reflection, but TypeScript seems to confuse that
     //
     private constructLerpFunctions() {
+
+        // lerpStyleEaseOutQuadratic
         this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Quadratic]] =
             (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
                 return this.lerpStyleEaseOutQuadratic(initial, lerpDistance, duration, currentTime);
             };
+
+        // lerpStyleLinear
+        this.lerpFunctions['lerpStyle' + Transition[Transition.EaseOut] + Style[Style.Linear]] =
+            (initial: number, lerpDistance: number, duration: number, currentTime: number): number => {
+                return this.lerpStyleLinear(initial, lerpDistance, duration, currentTime);
+            };
+    }
+
+    //
+    // Linear lerp
+    //
+    private lerpStyleLinear(initial: number, lerpDistance: number, duration: number, currentTime: number): number {
+        return ((lerpDistance * currentTime) / duration) + initial;
+
     }
 
     //

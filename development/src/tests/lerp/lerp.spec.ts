@@ -105,6 +105,49 @@ describe('Lerp Tests', () => {
     });
 
     // Hard to indicate what these values _should_ be, so hard coded
+    it('Lerp increases in value - Transition.EaseOut, Style.Linear', function (done) {
+
+        this.lerp.define([[0, 1], [3, 5]], 4, Transition.EaseOut, Style.Linear);
+
+        // Uninstall the clock so our setTimeout works correctly
+        // as mocking the clock doesn't really trigger our intervals
+        jasmine.clock().uninstall();
+
+        // We need to track multiple values
+        let firstResult: number[] = null;
+        let secondResult: number[] = null ;
+
+        this.lerp.lerp((results: number[], time: number) => {
+
+            if (firstResult === null) {
+                firstResult = results;
+            } else if (secondResult == null) {
+                secondResult = results;
+            }
+
+            console.log(results[1]);
+        });
+
+        // Wait for our work to be done
+        setTimeout(() => {
+
+            // Expect our increased values to be around the same each time
+            expect(firstResult[0]).toBeCloseTo(0.00925, 2);
+            expect(firstResult[1]).toBeCloseTo(3.020, 2);
+
+            expect(secondResult[0]).toBeCloseTo(0.017, 2);
+            expect(secondResult[1]).toBeCloseTo(3.033, 2);
+
+            expect(secondResult[0]).toBeGreaterThan(firstResult[0]);
+            expect(secondResult[1]).toBeGreaterThan(firstResult[1]);
+
+            // Finish this test
+            done();
+
+        }, 100);
+    });
+
+    // Hard to indicate what these values _should_ be, so hard coded
     it('Pause temporarily stops the lerp', function (done) {
 
         this.lerp.define([[0, 1]], 10);
