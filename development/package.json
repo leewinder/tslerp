@@ -29,13 +29,14 @@
     "testdev": "./node_modules/karma/bin/karma start config/karma.conf.js"
   },
   "dependencies": {
-    "systemjs": "0.19.27",
-    "core-js": "^2.4.0"
+    "core-js": "^2.4.0",
+    "systemjs": "0.19.27"
   },
   "devDependencies": {
     "browserify": "^13.1.0",
     "codelyzer": "0.0.20",
     "jasmine-core": "2.4.1",
+    "jshint": "^2.9.3",
     "karma": "^1.2.0",
     "karma-browserify": "^5.1.0",
     "karma-chrome-launcher": "^2.0.0",
