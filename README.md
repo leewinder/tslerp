@@ -20,7 +20,7 @@ Typescript library for lerping single and multi-sample data sets over time acros
 ## Installation
 1. Add the package to your 'dependencies' list in `package.json` and run `npm install`
 
-  `"tslerp": "^1.0.2"`
+  `"tslerp": "^1.0.0"`
   
   Optionally, you can manually install the package using the npm command line
 
@@ -268,6 +268,9 @@ Note that the `TsLerpTransition` option is ignored when choosing a Linear style
 <br>
 
 ## Change Log
+
+### 1.0.3
+* Updated package requirements to Typescript ^2.0.0 plus related package upgrades
 
 ### 1.0.2
 * Minor readme updates
