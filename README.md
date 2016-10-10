@@ -18,7 +18,7 @@ Typescript library for lerping single and multi-sample data sets over time acros
 <br>
 
 ## Dependencies
-* [Typings](https://www.npmjs.com/package/typings): npm install typings --global
+* [Typings](https://www.npmjs.com/package/typings): `npm install typings --global`
 
 <br>
 
