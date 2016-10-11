@@ -274,6 +274,9 @@ Note that the `TsLerpTransition` option is ignored when choosing a Linear style
 
 ## Change Log
 
+### 1.0.4
+* Documentation update stating Typings as a Dependency
+
 ### 1.0.3
 * Updated package requirements to Typescript ^2.0.0 plus related package upgrades
 
