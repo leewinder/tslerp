@@ -1,6 +1,6 @@
 {
   "name": "tslerp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "description": "Typescript library for lerping single and multi-sample data sets over time",
   "private": false,
@@ -44,7 +44,7 @@
     "karma-phantomjs-launcher": "^1.0.1",
     "lite-server": "^2.2.0",
     "tslint": "3.15.1",
-    "typescript": "^2.0.0",
+    "typescript": "^2.3.2",
     "typings": "^1.0.4",
     "watchify": "^3.7.0"
   }

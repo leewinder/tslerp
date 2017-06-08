@@ -9,6 +9,7 @@ branches:
   only:
     - master
     - develop
+    - /^feature\/.*$/
 
 # Install step
 install:

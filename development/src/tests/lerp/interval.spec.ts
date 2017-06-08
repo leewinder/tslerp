@@ -271,7 +271,7 @@ describe('Interval Tests', () => {
 
     });
 
-    it('Chaining intervals runs in sequence when cancelled', function (done) {
+    it('Chaining intervals runs in sequence when cancelled', function (done: any) {
 
         let numberOfTimesCallback1 = 0;
         let numberOfTimesCallback2 = 0;
@@ -310,7 +310,7 @@ describe('Interval Tests', () => {
 
     });
 
-    it('Chaining intervals runs in sequence when continuing', function (done) {
+    it('Chaining intervals runs in sequence when continuing', function (done: any) {
 
         let numberOfTimesCallback1 = 0;
         let numberOfTimesCallback2 = 0;
