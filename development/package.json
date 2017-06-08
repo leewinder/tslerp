@@ -1,6 +1,6 @@
 {
   "name": "tslerp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "description": "Typescript library for lerping single and multi-sample data sets over time",
   "private": false,
