@@ -39,12 +39,19 @@ def verify_branch_name():
     except KeyError:
         print "Unable to access the 'TRAVIS_BRANCH' environment variable\n"
 
-    # We only run on master
-    if branch_name.lower() != 'master':
+    # Check it's a push and nothing else
+    event_type = 'unknown'
+    try:
+        event_type = os.environ['TRAVIS_EVENT_TYPE']
+    except KeyError:
+        print "Unable to access the 'TRAVIS_EVENT_TYPE' environment variable\n"
+
+    # We only run on master when it's a push
+    if branch_name.lower() != 'master' or event_type.lower() != 'push':
 
         # Output the message
-        print "Publishing packages can only be carried out on the 'master' branch"
-        print "The branch being built is '" + branch_name + "' so this step will be skipped'"
+        print "Publishing is only carried out on the 'master' branch when a push occurs"
+        print "A '{}:{}' is running so this step will be skipped".format(branch_name, event_type)
 
         return False
 
