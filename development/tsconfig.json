@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "target": "es5",
-        "rootDir": "src/tslerp",
+        "rootDir": "src/lib",
         "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
@@ -13,9 +13,13 @@
         "removeComments": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "watch": true
-    },
-    "exclude": [
-        "node_modules"
-    ]
+        "watch": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2016",
+            "dom"
+        ]
+    }
 }
