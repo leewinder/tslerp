@@ -17,15 +17,12 @@ Typescript library for lerping single and multi-sample data sets over time acros
 
 <br>
 
-## Dependencies
-* [Typings](https://www.npmjs.com/package/typings): `npm install typings --global`
-
-<br>
+# End User Documentation
 
 ## Installation
 1. Add the package to your 'dependencies' list in `package.json` and run `npm install`
 
-  `"tslerp": "^1.0.0"`
+  `"tslerp": "^2.0.0"`
   
   Optionally, you can manually install the package using the npm command line
 
@@ -272,7 +269,10 @@ Note that the `TsLerpTransition` option is ignored when choosing a Linear style
 
 <br>
 
-## Change Log
+# Change Log
+
+### 2.0.0
+* Removed Typings dependency 
 
 ### 1.0.5
 * Updated project to latest TypeScript (v2.3.2) and fixed resultant errors
@@ -296,3 +296,29 @@ Note that the `TsLerpTransition` option is ignored when choosing a Linear style
 ### 0.0.1
 * Initial release
 * Support for Ease In Quadratic lerps only
+
+
+<br>
+
+# Contribution Guidelines
+
+## Requirements
+* [node.js and npm](https://www.npmjs.com/get-npm)
+* [Typescript](https://www.npmjs.com/package/typescript) 2.6.2+
+
+## Optional
+* [Visual Studio Code](https://code.visualstudio.com/)
+  * Recommended VS Code Extensions are included in the workspace
+  
+## Development
+* Branch from */develop 
+* Browse to /development and run `npm install`
+* Compile by running `tsc` (by default this will watch for changes)
+* Run tests in watch mode by running `npm run-script testdev`
+
+## Merging Back
+* Raise a pull request which will run a set of [Travis-CI](https://travis-ci.org/leewinder/tslerp) tests
+* Once passed, the change will be squashed into develop if approved
+
+
+

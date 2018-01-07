@@ -1,0 +1,5 @@
+# don't run deprecated test on isarray as we cannot remove our dependency on it
+files:
+  isarray:
+    tests:
+      deprecated: skip
